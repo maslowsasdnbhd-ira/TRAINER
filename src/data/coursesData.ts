@@ -10,6 +10,9 @@ export interface TrainingCourse {
   leadTrainerName?: string;
   leadTrainerRole?: string;
   leadTrainerAvatar?: string;
+  status?: 'approved' | 'pending' | 'rejected';
+  syllabusFileName?: string;
+  submittedAt?: string;
 }
 
 export const malaysianTrainingCatalog: TrainingCourse[] = [

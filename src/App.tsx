@@ -11,12 +11,13 @@ import { AuthModal } from './components/AuthModal';
 import { ForgotPasswordModal } from './components/ForgotPasswordModal';
 import { AdminApprovalView } from './components/AdminApprovalView';
 import { CourseCatalogView } from './components/CourseCatalogView';
+import { TrainerCourseUpload } from './components/TrainerCourseUploadModal';
 import { Footer } from './components/Footer';
 import { TopBar } from './components/TopBar';
 import { INITIAL_TRAINERS } from './data/initialTrainers';
 import { malaysianTrainingCatalog, TrainingCourse } from './data/coursesData';
 import { Trainer, CourseOffering, BookingRFP, AuthState, UserRole, UserProfile } from './types';
-import { ShieldAlert, ArrowRight, Lock } from 'lucide-react';
+import { ShieldAlert, ArrowRight, Lock, BookOpen, PlusCircle, Award, FileText } from 'lucide-react';
 
 const INITIAL_USERS: UserProfile[] = [
   {
@@ -130,6 +131,20 @@ export default function App() {
   const [bookings, setBookings] = useState<BookingRFP[]>([]);
   const [isRfpsDrawerOpen, setIsRfpsDrawerOpen] = useState(false);
 
+  // Centralized Malaysian Training Courses (with trainer submissions and admin approvals)
+  const [courses, setCourses] = useState<TrainingCourse[]>(() => {
+    try {
+      const saved = localStorage.getItem('maslow_courses_catalog');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {}
+    return malaysianTrainingCatalog;
+  });
+
+  const [trainerTab, setTrainerTab] = useState<'upload_course' | 'upload_cv' | 'my_courses'>('upload_course');
+
   // Sync auth state to localStorage
   useEffect(() => {
     try {
@@ -143,6 +158,13 @@ export default function App() {
       localStorage.setItem('maslow_registered_users', JSON.stringify(users));
     } catch (e) {}
   }, [users]);
+
+  // Sync courses to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('maslow_courses_catalog', JSON.stringify(courses));
+    } catch (e) {}
+  }, [courses]);
 
   // Adjust active tab when role changes
   useEffect(() => {
@@ -219,6 +241,26 @@ export default function App() {
   const handleRejectUser = (userId: string) => {
     setUsers((prev) =>
       prev.map((u) => (u.id === userId ? { ...u, status: 'rejected' } : u))
+    );
+  };
+
+  // Trainer Course Submission & Admin Approval Actions
+  const handleTrainerCourseSubmit = (newCourse: TrainingCourse, fileInfo: string) => {
+    setCourses((prev) => [newCourse, ...prev]);
+    console.log(
+      `[Maslow SA Workflow] New training course "${newCourse.title}" (${newCourse.id}) submitted by ${newCourse.leadTrainerName}. Syllabus document attached: ${fileInfo}. Notification email queued for info@maslowsa.com.`
+    );
+  };
+
+  const handleApproveCourse = (courseId: string) => {
+    setCourses((prev) =>
+      prev.map((c) => (c.id === courseId ? { ...c, status: 'approved' } : c))
+    );
+  };
+
+  const handleRejectCourse = (courseId: string) => {
+    setCourses((prev) =>
+      prev.map((c) => (c.id === courseId ? { ...c, status: 'rejected' } : c))
     );
   };
 
@@ -313,6 +355,8 @@ export default function App() {
   };
 
   const pendingUsers = users.filter((u) => u.status === 'pending');
+  const pendingCourses = courses.filter((c) => c.status === 'pending');
+  const totalPending = pendingUsers.length + pendingCourses.length;
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col selection:bg-[#DA6556]/20 selection:text-[#A14646]">
@@ -331,7 +375,7 @@ export default function App() {
         setCurrentTab={setCurrentTab}
         trainerCount={trainers.length}
         rfpCount={bookings.length}
-        pendingApprovalsCount={pendingUsers.length}
+        pendingApprovalsCount={totalPending}
         onOpenRfps={() => setIsRfpsDrawerOpen(true)}
         auth={auth}
         onSignOut={handleSignOut}
@@ -351,24 +395,139 @@ export default function App() {
               <div>
                 <div className="flex items-center gap-2">
                   <Lock className="w-5 h-5 text-[#A14646]" />
-                  <h2 className="text-xl font-bold text-slate-900">Trainer Portal Access Only</h2>
+                  <h2 className="text-xl font-bold text-slate-900">Certified Trainer Portal</h2>
                 </div>
                 <p className="text-xs text-slate-500 mt-1">
-                  Upload your certified CV and training credentials for admin review. Course outline editing and corporate client pricing are restricted to authorized administrators and clients.
+                  Upload your certified CV credentials and submit customized Malaysian training courses with proposed MYR pricing for Maslow SA review.
                 </p>
               </div>
 
               <div className="shrink-0">
-                <span className="text-xs font-semibold px-3 py-1.5 rounded-full bg-white text-[#DA6556] border border-[#DA6556]/30 shadow-xs">
-                  Active Trainer: {auth.userProfile?.id || auth.username}
+                <span className="text-xs font-semibold px-3 py-1.5 rounded-full bg-slate-50 text-[#DA6556] border border-[#DA6556]/30 shadow-xs">
+                  Active Trainer: {auth.userProfile?.fullName || auth.username} ({auth.userProfile?.id || 'TR-PORTAL'})
                 </span>
               </div>
             </div>
 
-            <TrainerUploadPortal
-              onProfilePublished={handleProfilePublished}
-              onNavigateToDirectory={() => handleSwitchRole('client')}
-            />
+            {/* Navigation Tabs for Trainer Portal */}
+            <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 pb-3">
+              <button
+                type="button"
+                onClick={() => setTrainerTab('upload_course')}
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer ${
+                  trainerTab === 'upload_course'
+                    ? 'bg-gradient-to-r from-[#A14646] to-[#DA6556] text-white shadow-xs'
+                    : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
+                }`}
+              >
+                <PlusCircle className="w-4 h-4" />
+                <span>Submit New Training Course</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setTrainerTab('upload_cv')}
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer ${
+                  trainerTab === 'upload_cv'
+                    ? 'bg-[#A14646] text-white shadow-xs'
+                    : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
+                }`}
+              >
+                <Award className="w-4 h-4" />
+                <span>CV &amp; TTT Credentials</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setTrainerTab('my_courses')}
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer ${
+                  trainerTab === 'my_courses'
+                    ? 'bg-[#A14646] text-white shadow-xs'
+                    : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
+                }`}
+              >
+                <BookOpen className="w-4 h-4" />
+                <span>
+                  My Submitted Courses ({courses.filter(c => c.assignedTrainerId === (auth.userProfile?.id || 'TR-PORTAL') || c.leadTrainerName === (auth.userProfile?.fullName || auth.username)).length})
+                </span>
+              </button>
+            </div>
+
+            {/* Sub-View 1: Course Upload Portal */}
+            {trainerTab === 'upload_course' && (
+              <TrainerCourseUpload
+                trainerName={auth.userProfile?.fullName || auth.username || 'Certified Trainer'}
+                trainerId={auth.userProfile?.id || 'TR-PORTAL'}
+                onCourseSubmit={handleTrainerCourseSubmit}
+              />
+            )}
+
+            {/* Sub-View 2: CV & Credentials Upload */}
+            {trainerTab === 'upload_cv' && (
+              <TrainerUploadPortal
+                onProfilePublished={handleProfilePublished}
+                onNavigateToDirectory={() => handleSwitchRole('client')}
+              />
+            )}
+
+            {/* Sub-View 3: My Submitted Courses List */}
+            {trainerTab === 'my_courses' && (
+              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-4">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                  <div>
+                    <h3 className="text-base font-bold text-slate-900">Your Submitted Training Modules</h3>
+                    <p className="text-xs text-slate-500">Track curriculum approval status by Maslow SA admin committee.</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setTrainerTab('upload_course')}
+                    className="px-3 py-1.5 text-xs font-bold text-white bg-[#A14646] hover:bg-[#DA6556] rounded-xl flex items-center gap-1.5 transition cursor-pointer"
+                  >
+                    <PlusCircle className="w-3.5 h-3.5" /> Submit Another Course
+                  </button>
+                </div>
+
+                {courses.filter(c => c.assignedTrainerId === (auth.userProfile?.id || 'TR-PORTAL') || c.leadTrainerName === (auth.userProfile?.fullName || auth.username)).length === 0 ? (
+                  <div className="text-center py-8 bg-slate-50 rounded-xl border border-dashed border-slate-200">
+                    <BookOpen className="w-8 h-8 text-slate-400 mx-auto mb-2" />
+                    <p className="text-xs font-semibold text-slate-700">No courses submitted yet under this trainer profile.</p>
+                    <p className="text-[11px] text-slate-500 mt-1">Click &apos;Submit New Training Course&apos; above to upload your outline and syllabus.</p>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {courses
+                      .filter(c => c.assignedTrainerId === (auth.userProfile?.id || 'TR-PORTAL') || c.leadTrainerName === (auth.userProfile?.fullName || auth.username))
+                      .map((course) => (
+                        <div key={course.id} className="p-4 rounded-xl border border-slate-200 bg-slate-50/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                          <div className="space-y-1">
+                            <div className="flex items-center gap-2">
+                              <span className="text-xs font-bold text-slate-900">{course.title}</span>
+                              <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
+                                (course.status || 'approved') === 'approved'
+                                  ? 'bg-emerald-100 text-emerald-800'
+                                  : (course.status || 'approved') === 'rejected'
+                                  ? 'bg-rose-100 text-rose-800'
+                                  : 'bg-amber-100 text-amber-800'
+                              }`}>
+                                {course.status || 'approved'}
+                              </span>
+                            </div>
+                            <p className="text-xs text-slate-500">
+                              Category: {course.category} • Duration: {course.duration} • Proposed Fee: <strong className="text-[#A14646]">RM {course.priceMYR.toLocaleString()}</strong>
+                            </p>
+                            {course.syllabusFileName && (
+                              <p className="text-[11px] text-slate-400 flex items-center gap-1">
+                                <FileText className="w-3.5 h-3.5 text-[#DA6556]" /> Outline Attached: {course.syllabusFileName}
+                              </p>
+                            )}
+                          </div>
+                          <span className="text-xs text-slate-400 font-mono shrink-0">ID: {course.id}</span>
+                        </div>
+                      ))}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         )}
 
@@ -390,7 +549,7 @@ export default function App() {
                 <div id="course-catalog">
                   <CourseCatalogView
                     showPricing={true}
-                    courses={malaysianTrainingCatalog}
+                    courses={courses.filter((c) => c.status !== 'pending' && c.status !== 'rejected')}
                     trainers={trainers}
                     onSelectTrainer={(t) => setSelectedTrainer(t)}
                     onInquireCourse={handleInquireCourse}
@@ -426,13 +585,13 @@ export default function App() {
         {auth.role === 'admin' && (
           <>
             {/* Admin Notification Banner when Pending Requests Exist */}
-            {pendingUsers.length > 0 && currentTab !== 'approvals' && (
+            {totalPending > 0 && currentTab !== 'approvals' && (
               <div className="bg-amber-500/10 border-b border-amber-500/30 py-3 px-4 sm:px-6">
                 <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
                   <div className="flex items-center gap-2 text-amber-900 font-medium">
                     <ShieldAlert className="w-4 h-4 text-amber-600 shrink-0" />
                     <span>
-                      <strong>Admin Attention:</strong> You have <strong>{pendingUsers.length}</strong> new registration request(s) awaiting IC/Phone review &amp; email approval.
+                      <strong>Admin Attention:</strong> You have <strong>{pendingUsers.length}</strong> user registration(s) and <strong>{pendingCourses.length}</strong> trainer course proposal(s) awaiting review &amp; approval.
                     </span>
                   </div>
                   <button
@@ -440,7 +599,7 @@ export default function App() {
                     onClick={() => setCurrentTab('approvals')}
                     className="px-3.5 py-1.5 rounded-lg bg-[#A14646] hover:bg-[#DA6556] text-white font-bold text-xs flex items-center gap-1 shadow-xs transition cursor-pointer"
                   >
-                    Open Approvals Portal <ArrowRight className="w-3.5 h-3.5" />
+                    Open Approvals Portal ({totalPending}) <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
               </div>
@@ -459,7 +618,7 @@ export default function App() {
                 <div id="course-catalog">
                   <CourseCatalogView
                     showPricing={true}
-                    courses={malaysianTrainingCatalog}
+                    courses={courses}
                     trainers={trainers}
                     onSelectTrainer={(t) => setSelectedTrainer(t)}
                     onInquireCourse={handleInquireCourse}
@@ -505,6 +664,10 @@ export default function App() {
                   allUsers={users}
                   onApproveUser={handleApproveUser}
                   onRejectUser={handleRejectUser}
+                  pendingCourses={pendingCourses}
+                  allCourses={courses}
+                  onApproveCourse={handleApproveCourse}
+                  onRejectCourse={handleRejectCourse}
                 />
               </div>
             )}
