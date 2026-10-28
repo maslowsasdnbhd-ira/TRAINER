@@ -419,6 +419,16 @@ Also synthesize the client's interpretedGoal, targetAudienceIdentified, skillsRe
   });
 
   // Static files & Vite middleware
+  app.get(['/assets/hrdc-registered-trainer.png', '/assets/hrdc-registered-trainer.svg'], (req, res) => {
+    res.type('image/svg+xml').sendFile(path.resolve(__dirname, 'public/assets/hrdc-registered-trainer.svg'));
+  });
+  app.get(['/assets/hrdc-claimable.png', '/assets/hrdc-claimable.svg'], (req, res) => {
+    res.type('image/svg+xml').sendFile(path.resolve(__dirname, 'public/assets/hrdc-claimable.svg'));
+  });
+
+  app.use('/assets', express.static(path.resolve(__dirname, 'public/assets')));
+  app.use(express.static(path.resolve(__dirname, 'public')));
+
   if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.resolve(__dirname, 'dist')));
     app.get('*', (req, res) => {

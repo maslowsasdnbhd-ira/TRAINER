@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="claimBlueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E3B7E" />
+      <stop offset="100%" stop-color="#082959" />
+    </linearGradient>
+    <linearGradient id="claimGreenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="claimRedGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EF4444" />
+      <stop offset="100%" stop-color="#DC2626" />
+    </linearGradient>
+    <filter id="claimShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.12" />
+    </filter>
+  </defs>
+
+  <!-- Circular Outer Base -->
+  <circle cx="200" cy="200" r="185" fill="#FFFFFF" stroke="#059669" stroke-width="7" filter="url(#claimShadow)" />
+  <circle cx="200" cy="200" r="172" fill="none" stroke="#0E3B7E" stroke-width="2.5" stroke-dasharray="6,4" />
+  <circle cx="200" cy="200" r="162" fill="none" stroke="#059669" stroke-width="2" />
+
+  <!-- Top Text: HRD CORP MALAYSIA -->
+  <path id="topClaimCurve" d="M 60,200 A 140,140 0 0,1 340,200" fill="none" />
+  <text font-family="'Plus Jakarta Sans', Arial, sans-serif" font-size="16" font-weight="800" fill="#0E3B7E" letter-spacing="2">
+    <textPath href="#topClaimCurve" startOffset="50%" text-anchor="middle">
+      HRD CORP MALAYSIA
+    </textPath>
+  </text>
+
+  <!-- Bottom Text: TRAINING GRANT ELIGIBLE -->
+  <path id="bottomClaimCurve" d="M 340,200 A 140,140 0 0,1 60,200" fill="none" />
+  <text font-family="'Plus Jakarta Sans', Arial, sans-serif" font-size="13" font-weight="800" fill="#047857" letter-spacing="1.5">
+    <textPath href="#bottomClaimCurve" startOffset="50%" text-anchor="middle">
+      • 100% LEVY CLAIMABLE •
+    </textPath>
+  </text>
+
+  <!-- Center HRD Corp Logo Emblem & Claimable Banner -->
+  <g transform="translate(200, 155)">
+    <!-- HRD Corp Symbol -->
+    <g transform="scale(1.05)">
+      <circle cx="-16" cy="-22" r="8" fill="#0E3B7E" />
+      <circle cx="16" cy="-18" r="7" fill="#EF4444" />
+      <path d="M -30,-5 C -20,-24 12,-24 28,-8 C 16,-6 6,-2 -2,4 C -12,-6 -20,-8 -30,-5 Z" fill="url(#claimRedGrad)" />
+      <path d="M -26,16 C -26,-2 -10,-8 -2,2 C 8,14 26,12 32,0 C 30,22 8,30 -10,26 C -20,24 -26,20 -26,16 Z" fill="url(#claimBlueGrad)" />
+    </g>
+    
+    <text x="0" y="44" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-size="13" font-weight="800" fill="#0E3B7E" text-anchor="middle" letter-spacing="1">
+      HRD CORP
+    </text>
+  </g>
+
+  <!-- Big Bold Ribbon: CLAIMABLE -->
+  <g transform="translate(200, 240)">
+    <!-- Ribbon Shadow & Tail -->
+    <path d="M -135,16 L -150,-10 L -130,-12 Z" fill="#047857" opacity="0.7" />
+    <path d="M 135,16 L 150,-10 L 130,-12 Z" fill="#047857" opacity="0.7" />
+    
+    <!-- Main Ribbon Box -->
+    <rect x="-130" y="-18" width="260" height="38" rx="8" fill="url(#claimGreenGrad)" filter="url(#claimShadow)" />
+    
+    <!-- Inner Border for Elegance -->
+    <rect x="-126" y="-14" width="252" height="30" rx="6" fill="none" stroke="#A7F3D0" stroke-width="1.5" />
+
+    <!-- Ribbon Text -->
+    <text x="0" y="7" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-size="20" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="3">
+      CLAIMABLE
+    </text>
+  </g>
+
+  <!-- Checkmark Badge of Assurance -->
+  <g transform="translate(200, 292)">
+    <circle cx="0" cy="0" r="14" fill="#047857" />
+    <path d="M -6,0 L -2,4 L 6,-4" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+</svg>

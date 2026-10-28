@@ -136,3 +136,25 @@ export interface BookingRFP {
   status: 'Pending Review' | 'Trainer Contacted' | 'Quotation Sent';
   createdAt: string;
 }
+
+export type UserRole = 'admin' | 'trainer' | 'client' | null;
+export type ApprovalStatus = 'pending' | 'approved' | 'rejected';
+
+export interface UserProfile {
+  id: string; // Unique ID (e.g., TR-1001 for trainers, CL-2001 for clients)
+  role: 'admin' | 'trainer' | 'client';
+  fullName: string;
+  email: string;
+  telephone: string;
+  icNumber: string; // Malaysian IC or Passport number
+  status: ApprovalStatus;
+  createdAt: string;
+}
+
+export interface AuthState {
+  isAuthenticated: boolean;
+  role: UserRole;
+  username: string;
+  userProfile?: UserProfile;
+}
+

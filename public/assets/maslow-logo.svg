@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 72" width="380" height="72" fill="none">
+  <defs>
+    <linearGradient id="maslowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#A14646" />
+      <stop offset="100%" stop-color="#DA6556" />
+    </linearGradient>
+    <linearGradient id="peachGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EB895B" />
+      <stop offset="100%" stop-color="#FDB773" />
+    </linearGradient>
+  </defs>
+
+  <!-- Brand Symbol / Emblem -->
+  <rect x="4" y="6" width="60" height="60" rx="14" fill="url(#maslowGrad)" />
+  
+  <!-- Stylized M / Hierarchy Triangle inside Emblem -->
+  <path d="M 18 50 L 34 20 L 50 50 Z" fill="#FFFFFF" fill-opacity="0.15" />
+  <path d="M 22 48 L 34 26 L 46 48 Z" fill="#FFFFFF" fill-opacity="0.25" />
+  <!-- Prominent M Geometry -->
+  <path d="M 20 46 L 20 25 L 34 38 L 48 25 L 48 46" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
+  <circle cx="34" cy="21" r="3" fill="#FDB773" />
+
+  <!-- Company Name & Registration Details (Part of the Official Logo Asset) -->
+  <text x="76" y="34" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="20" font-weight="800" fill="#1e293b" letter-spacing="-0.02em">
+    MASLOW SA <tspan fill="#DA6556">SDN BHD</tspan>
+  </text>
+  <text x="76" y="52" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="600" fill="#64748b" letter-spacing="0.04em">
+    REG. NO. 201201034821 (1019302-K)
+  </text>
+</svg>

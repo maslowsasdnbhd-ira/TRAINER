@@ -35,10 +35,10 @@ export const TrainerDetailModal: React.FC<TrainerDetailModalProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200">
       <div className="bg-white rounded-3xl max-w-3xl w-full shadow-2xl border border-slate-200 overflow-hidden my-8 max-h-[90vh] flex flex-col">
         {/* Modal Header */}
-        <div className="relative bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-900 text-white p-6 sm:p-8 shrink-0">
+        <div className="relative bg-gradient-to-r from-maslow-darkRed via-maslow-terracotta to-maslow-peach text-white p-6 sm:p-8 shrink-0">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+            className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -269,9 +269,9 @@ export const TrainerDetailModal: React.FC<TrainerDetailModalProps> = ({
                 onClose();
                 onRequestBooking(trainer);
               }}
-              className="flex-1 sm:flex-initial px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-200 transition-all flex items-center justify-center"
+              className="flex-1 sm:flex-initial px-6 py-2.5 rounded-xl bg-gradient-to-r from-maslow-terracotta to-maslow-peach hover:from-maslow-darkRed hover:to-maslow-terracotta text-white text-xs font-bold shadow-md shadow-maslow-terracotta/20 transition-all flex items-center justify-center"
             >
-              Request Training Proposal / RFP
+              Inquire / Book Training Session
             </button>
           </div>
         </div>

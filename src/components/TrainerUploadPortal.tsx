@@ -549,9 +549,9 @@ export const TrainerUploadPortal: React.FC<TrainerUploadPortalProps> = ({
             <button
               onClick={handleStartParsing}
               disabled={loading || (!cvText && !cvBase64 && !certBase64)}
-              className="px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-sm shadow-md shadow-blue-200 disabled:opacity-50 transition-all flex items-center"
+              className="px-6 py-3 rounded-xl bg-gradient-to-r from-maslow-darkRed via-maslow-terracotta to-maslow-peach hover:opacity-95 text-white font-bold text-sm shadow-md shadow-maslow-terracotta/20 disabled:opacity-50 transition-all flex items-center"
             >
-              <Sparkles className="w-4 h-4 mr-2 text-amber-300" />
+              <Sparkles className="w-4 h-4 mr-2 text-maslow-sand" />
               Start AI Document Parsing
               <ArrowRight className="w-4 h-4 ml-2" />
             </button>
@@ -563,9 +563,9 @@ export const TrainerUploadPortal: React.FC<TrainerUploadPortalProps> = ({
       {step === 2 && (
         <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center max-w-lg mx-auto space-y-6">
           <div className="relative w-20 h-20 mx-auto">
-            <div className="absolute inset-0 rounded-full border-4 border-indigo-100 animate-ping opacity-75" />
-            <div className="relative w-20 h-20 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-lg">
-              <Sparkles className="w-8 h-8 animate-pulse text-amber-300" />
+            <div className="absolute inset-0 rounded-full border-4 border-maslow-sand/30 animate-ping opacity-75" />
+            <div className="relative w-20 h-20 rounded-full bg-gradient-to-tr from-maslow-darkRed to-maslow-terracotta flex items-center justify-center text-white shadow-lg">
+              <Sparkles className="w-8 h-8 animate-pulse text-maslow-sand" />
             </div>
           </div>
 

@@ -163,16 +163,16 @@ export const AIMatchmakerView: React.FC<AIMatchmakerViewProps> = ({
             <button
               type="submit"
               disabled={loading || !query.trim()}
-              className="w-full sm:w-auto px-6 py-2.5 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 disabled:opacity-50 text-white font-semibold text-sm rounded-xl shadow-md shadow-indigo-200 transition-all flex items-center justify-center"
+              className="w-full sm:w-auto px-6 py-2.5 bg-gradient-to-r from-maslow-darkRed via-maslow-terracotta to-maslow-peach hover:opacity-95 disabled:opacity-50 text-white font-semibold text-sm rounded-xl shadow-md shadow-maslow-terracotta/20 transition-all flex items-center justify-center"
             >
               {loading ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Analyzing Trainers with Gemini...
+                  Analyzing with Maslow SA Consultant...
                 </>
               ) : (
                 <>
-                  <Sparkles className="w-4 h-4 mr-2 text-amber-300" />
+                  <Sparkles className="w-4 h-4 mr-2 text-maslow-sand" />
                   Match via Maslow SA Consultant
                 </>
               )}
@@ -339,7 +339,7 @@ export const AIMatchmakerView: React.FC<AIMatchmakerViewProps> = ({
                         <div className="text-[11px] font-semibold text-slate-400 uppercase">
                           Match Score
                         </div>
-                        <div className="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600">
+                        <div className="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-maslow-darkRed to-maslow-terracotta">
                           {item.matchScore}%
                         </div>
                       </div>
@@ -347,16 +347,9 @@ export const AIMatchmakerView: React.FC<AIMatchmakerViewProps> = ({
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => onSelectTrainer(trainer)}
-                          className="px-3.5 py-2 text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl transition-colors"
+                          className="px-4 py-2 text-xs font-semibold text-white bg-gradient-to-r from-maslow-terracotta to-maslow-peach hover:from-maslow-darkRed hover:to-maslow-terracotta rounded-xl shadow-xs transition-all"
                         >
-                          View Credentials
-                        </button>
-                        <button
-                          onClick={() => onRequestBooking(trainer, trainer.coursesOffered[0])}
-                          className="px-4 py-2 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-xs transition-colors flex items-center"
-                        >
-                          Request Proposal
-                          <ChevronRight className="w-3.5 h-3.5 ml-1" />
+                          View Credentials &amp; Profile
                         </button>
                       </div>
                     </div>
@@ -400,7 +393,7 @@ export const AIMatchmakerView: React.FC<AIMatchmakerViewProps> = ({
                     <div className="mt-2 pt-2 border-t border-indigo-100 flex items-center justify-between text-[11px] text-indigo-900 bg-white/70 p-2 rounded-lg">
                       <span className="flex items-center">
                         <CheckCircle2 className="w-3.5 h-3.5 mr-1 text-emerald-600 shrink-0" />
-                        <strong>Next Steps:</strong> Click "Request Proposal" to generate an official Maslow SA Sdn Bhd quotation with HRD Corp grant claim support.
+                        <strong>Next Steps:</strong> Review credentials or contact sales@maslowsa.com for customized corporate training alignment with HRD Corp grant claim support.
                       </span>
                     </div>
                   </div>

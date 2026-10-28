@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E3B7E" />
+      <stop offset="100%" stop-color="#07224D" />
+    </linearGradient>
+    <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E52D27" />
+      <stop offset="100%" stop-color="#B31217" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FBBF24" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+    <filter id="badgeShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.12" />
+    </filter>
+  </defs>
+
+  <!-- Circular Outer Border -->
+  <circle cx="200" cy="200" r="185" fill="#FFFFFF" stroke="#0E3B7E" stroke-width="8" filter="url(#badgeShadow)" />
+  <circle cx="200" cy="200" r="172" fill="none" stroke="#E52D27" stroke-width="2.5" stroke-dasharray="6,4" />
+  
+  <!-- Outer Ring Navy Accent -->
+  <circle cx="200" cy="200" r="162" fill="none" stroke="#0E3B7E" stroke-width="3" />
+
+  <!-- Arc Ribbon for Registered Training Provider -->
+  <!-- Top Curved Text Path -->
+  <path id="topCurve" d="M 60,200 A 140,140 0 0,1 340,200" fill="none" />
+  <text font-family="'Plus Jakarta Sans', Arial, sans-serif" font-size="16" font-weight="800" fill="#0E3B7E" letter-spacing="2.5">
+    <textPath href="#topCurve" startOffset="50%" text-anchor="middle">
+      REGISTERED TRAINING PROVIDER
+    </textPath>
+  </text>
+
+  <!-- Bottom Curved Text Path -->
+  <path id="bottomCurve" d="M 340,200 A 140,140 0 0,1 60,200" fill="none" />
+  <text font-family="'Plus Jakarta Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#E52D27" letter-spacing="2">
+    <textPath href="#bottomCurve" startOffset="50%" text-anchor="middle">
+      • HRD CORP MALAYSIA •
+    </textPath>
+  </text>
+
+  <!-- Center Shield / Crest -->
+  <g transform="translate(200, 195)">
+    <!-- Shield Background -->
+    <path d="M 0,-65 C 45,-65 65,-40 65,-10 C 65,35 25,65 0,80 C -25,65 -65,35 -65,-10 C -65,-40 -45,-65 0,-65 Z" 
+          fill="url(#blueGrad)" />
+    
+    <!-- Inner Shield Inset -->
+    <path d="M 0,-58 C 40,-58 58,-36 58,-10 C 58,30 22,56 0,70 C -22,56 -58,30 -58,-10 C -58,-36 -40,-58 0,-58 Z" 
+          fill="#FFFFFF" />
+
+    <!-- HRD Corp Logo Silhouette -->
+    <!-- Stylized H and R D figures -->
+    <g transform="translate(0, -10) scale(0.85)">
+      <!-- Red swoop -->
+      <path d="M -32,-20 C -20,-38 10,-38 25,-22 C 15,-20 5,-15 -2,-8 C -12,-18 -22,-20 -32,-20 Z" fill="url(#redGrad)" />
+      <!-- Humanoid head -->
+      <circle cx="-12" cy="-18" r="7" fill="#0E3B7E" />
+      <circle cx="14" cy="-14" r="6" fill="#E52D27" />
+      <!-- Corporate body swooshes -->
+      <path d="M -25,12 C -25,-6 -10,-12 -2,0 C 8,12 25,10 32,-4 C 30,18 8,28 -10,24 C -20,22 -25,18 -25,12 Z" fill="#0E3B7E" />
+      <path d="M -2,-2 C 5,8 18,10 24,0 C 26,12 12,20 -2,15 Z" fill="url(#redGrad)" />
+    </g>
+
+    <!-- Star Cluster of Excellence -->
+    <g transform="translate(0, 36)">
+      <polygon points="0,-7 2,-2 7,-2 3,1 5,6 0,3 -5,6 -3,1 -7,-2 -2,-2" fill="url(#goldGrad)" />
+      <polygon points="-16,-4 -14,0 -10,0 -13,2 -11,6 -16,3 -21,6 -19,2 -22,0 -18,0" fill="url(#goldGrad)" transform="scale(0.75)" />
+      <polygon points="16,-4 18,0 22,0 19,2 21,6 16,3 11,6 13,2 10,0 14,0" fill="url(#goldGrad)" transform="scale(0.75)" />
+    </g>
+
+    <!-- Accreditation Tag -->
+    <rect x="-48" y="44" width="96" height="16" rx="8" fill="#0E3B7E" />
+    <text x="0" y="55" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-size="9" font-weight="800" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">
+      ACCREDITED
+    </text>
+  </g>
+
+  <!-- Left & Right Stars -->
+  <polygon points="48,200 50,195 55,195 51,192 53,187 48,190 43,187 45,192 41,195 46,195" fill="url(#goldGrad)" transform="translate(0, 5) scale(1.1)" />
+  <polygon points="348,200 350,195 355,195 351,192 353,187 348,190 343,187 345,192 341,195 346,195" fill="url(#goldGrad)" transform="translate(-32, 5) scale(1.1)" />
+</svg>
