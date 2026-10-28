@@ -7,8 +7,7 @@ import { TrainerUploadPortal } from './components/TrainerUploadPortal';
 import { TrainerDetailModal } from './components/TrainerDetailModal';
 import { BookingModal } from './components/BookingModal';
 import { BookingsDrawer } from './components/BookingsDrawer';
-import { LoginModal } from './components/LoginModal';
-import { RegisterModal } from './components/RegisterModal';
+import { AuthModal } from './components/AuthModal';
 import { AdminApprovalView } from './components/AdminApprovalView';
 import { Footer } from './components/Footer';
 import { TopBar } from './components/TopBar';
@@ -102,8 +101,6 @@ export default function App() {
   });
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
-  const [registerRole, setRegisterRole] = useState<'trainer' | 'client'>('trainer');
 
   const [currentTab, setCurrentTab] = useState<'directory' | 'matchmaker' | 'onboarding' | 'approvals'>('directory');
   const [trainers, setTrainers] = useState<Trainer[]>(INITIAL_TRAINERS);
@@ -293,10 +290,7 @@ export default function App() {
               <>
                 <HeroBanner
                   onOpenMatchmaker={() => setCurrentTab('matchmaker')}
-                  onOpenTrainerPortal={() => {
-                    setRegisterRole('trainer');
-                    setIsRegisterModalOpen(true);
-                  }}
+                  onOpenTrainerPortal={() => setIsLoginModalOpen(true)}
                   trainerCount={trainers.length}
                 />
                 <DirectoryView
@@ -304,10 +298,7 @@ export default function App() {
                   onSelectTrainer={(t) => setSelectedTrainer(t)}
                   onRequestBooking={handleOpenBooking}
                   onOpenMatchmaker={() => setCurrentTab('matchmaker')}
-                  onOpenTrainerPortal={() => {
-                    setRegisterRole('trainer');
-                    setIsRegisterModalOpen(true);
-                  }}
+                  onOpenTrainerPortal={() => setIsLoginModalOpen(true)}
                 />
               </>
             )}
@@ -421,33 +412,14 @@ export default function App() {
         bookings={bookings}
       />
 
-      {/* Registration Modal for Trainers and Clients */}
-      {isRegisterModalOpen && (
-        <RegisterModal
-          role={registerRole}
-          existingUsers={users}
-          onRoleChange={setRegisterRole}
-          onRegisterSubmit={handleRegisterSubmit}
-          onClose={() => setIsRegisterModalOpen(false)}
-          onSwitchToLogin={() => {
-            setIsRegisterModalOpen(false);
-            setIsLoginModalOpen(true);
-          }}
-        />
-      )}
-
-      {/* Login Screen / Modal (Appears when signed out or when triggered) */}
-      <LoginModal
+      {/* Authentication Modal (Sign Up first, then Sign In) */}
+      <AuthModal
         isOpen={!auth.isAuthenticated || isLoginModalOpen}
+        existingUsers={users}
+        onRegisterSubmit={handleRegisterSubmit}
         onLogin={handleLogin}
         onClose={() => setIsLoginModalOpen(false)}
         canClose={auth.isAuthenticated}
-        registeredUsers={users}
-        onOpenRegister={(role) => {
-          setIsLoginModalOpen(false);
-          setRegisterRole(role);
-          setIsRegisterModalOpen(true);
-        }}
       />
 
       {/* Platform 3-Column Sunset Footer */}
