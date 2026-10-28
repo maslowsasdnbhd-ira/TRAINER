@@ -81,20 +81,38 @@ export const AIMatchmakerView: React.FC<AIMatchmakerViewProps> = ({
       <div className="text-center max-w-3xl mx-auto space-y-3">
         <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-semibold">
           <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
-          <span>Gemini Semantic Matchmaker</span>
+          <span>Maslow SA Sdn Bhd • AI Training Consultant</span>
         </div>
         <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-          Find the Ideal TTT Certified Trainer via Natural Language
+          AI Corporate Matchmaker &amp; Training Advisory
         </h2>
         <p className="text-sm text-slate-600">
-          Describe your corporate training objectives, participant profile, desired certifications
-          (like HRD Corp, ISO, Six Sigma), and workshop format. Gemini will rank and rationalize the
-          best qualified instructors from our certified directory.
+          Our specialized Google AI Studio consultant analyzes your organization's skill gaps,
+          target participant profile, budget, and scheduling constraints against Maslow SA Sdn Bhd's
+          vetted, TTT-accredited trainer catalog.
         </p>
       </div>
 
       {/* Natural Language Prompt Box */}
       <div className="bg-white rounded-2xl shadow-md border border-indigo-100 p-4 sm:p-6">
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-xs font-bold text-slate-700 flex items-center">
+            <Brain className="w-4 h-4 mr-1.5 text-indigo-600" />
+            Client Training Request
+          </span>
+          <button
+            type="button"
+            onClick={() =>
+              setQuery(
+                `[Client / User Request]\n- Organization / User Type: Corporate MNC / GLC\n- Target Skills / Goals: Generative AI Prompting & Executive Leadership\n- Preferred Format: 2-Day In-Person Workshop\n- Timeline & Budget: Next Month, HRD Corp Claimable, Up to $2,000/day`
+              )
+            }
+            className="text-[11px] font-semibold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-lg transition-colors"
+          >
+            + Insert Structured Template
+          </button>
+        </div>
+
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -104,18 +122,18 @@ export const AIMatchmakerView: React.FC<AIMatchmakerViewProps> = ({
         >
           <div className="relative">
             <textarea
-              rows={3}
+              rows={4}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="e.g., 'We have 25 mid-level operations managers who need a 2-day HRD Corp claimable workshop on Python and automation tools. The trainer must have TTT accreditation and practical industry experience...'"
-              className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all resize-none text-slate-800 placeholder:text-slate-400"
+              placeholder="e.g. '[Client / User Request]&#10;- Organization / User Type: Corporate Enterprise&#10;- Target Skills / Goals: Python automation & machine learning for non-tech managers&#10;- Preferred Format: 2-Day In-Person&#10;- Timeline & Budget: Flexible schedule, HRD Corp Claimable'"
+              className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all resize-none text-slate-800 placeholder:text-slate-400 font-mono text-xs sm:text-sm"
             />
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
             <div className="text-xs text-slate-500 flex items-center">
-              <Brain className="w-3.5 h-3.5 mr-1 text-indigo-500" />
-              Analyzes certifications, course syllabi, years of experience, and methodology
+              <ShieldCheck className="w-3.5 h-3.5 mr-1 text-emerald-600" />
+              Evaluates TTT accreditation, domain mastery, and Maslow SA Sdn Bhd booking availability
             </div>
 
             <button
@@ -131,7 +149,7 @@ export const AIMatchmakerView: React.FC<AIMatchmakerViewProps> = ({
               ) : (
                 <>
                   <Sparkles className="w-4 h-4 mr-2 text-amber-300" />
-                  Run AI Matchmaker
+                  Match via Maslow SA Consultant
                 </>
               )}
             </button>
@@ -352,6 +370,14 @@ export const AIMatchmakerView: React.FC<AIMatchmakerViewProps> = ({
                           <span className="text-slate-400 ml-1">({item.suggestedDuration})</span>
                         </div>
                       )}
+                    </div>
+
+                    {/* Maslow SA Next Steps */}
+                    <div className="mt-2 pt-2 border-t border-indigo-100 flex items-center justify-between text-[11px] text-indigo-900 bg-white/70 p-2 rounded-lg">
+                      <span className="flex items-center">
+                        <CheckCircle2 className="w-3.5 h-3.5 mr-1 text-emerald-600 shrink-0" />
+                        <strong>Next Steps:</strong> Click "Request Proposal" to generate an official Maslow SA Sdn Bhd quotation with HRD Corp grant claim support.
+                      </span>
                     </div>
                   </div>
                 </div>

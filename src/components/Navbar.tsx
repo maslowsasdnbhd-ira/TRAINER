@@ -22,21 +22,23 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="flex items-center justify-between h-16">
           {/* Logo & Brand */}
           <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setCurrentTab('directory')}>
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-700 via-indigo-600 to-amber-500 flex items-center justify-center text-white shadow-md shadow-indigo-100">
-              <Award className="w-5 h-5 text-white" />
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-md">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+              </svg>
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <span className="font-extrabold text-xl tracking-tight text-slate-900">
-                  TrainMatch<span className="text-blue-600">.ai</span>
-                </span>
+                <h1 className="font-bold text-xl text-slate-900 tracking-tight">
+                  Maslow SA <span className="text-blue-600">Sdn Bhd</span>
+                </h1>
                 <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
                   <CheckCircle2 className="w-3 h-3 mr-1 text-emerald-600" />
                   TTT Verified
                 </span>
               </div>
-              <p className="text-[11px] text-slate-500 hidden md:block">
-                Certified Train-the-Trainer Marketplace
+              <p className="text-xs text-slate-500 font-medium hidden md:block">
+                Certified Professional Training Marketplace
               </p>
             </div>
           </div>

@@ -149,7 +149,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 <p className="text-slate-600 max-w-md mx-auto text-xs">
                   Your corporate RFP has been registered with reference ID{' '}
                   <strong className="text-blue-600 font-mono">{submittedRfp.id}</strong>.
-                  A formal syllabus quotation &amp; HRD Corp grant pre-approval invoice will be emailed to{' '}
+                  A formal syllabus quotation &amp; HRD Corp grant pre-approval invoice from Maslow SA Sdn Bhd will be emailed to{' '}
                   <strong>{submittedRfp.clientEmail}</strong>.
                 </p>
               </div>

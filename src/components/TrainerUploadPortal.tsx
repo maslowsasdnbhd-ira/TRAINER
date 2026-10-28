@@ -972,7 +972,7 @@ export const TrainerUploadPortal: React.FC<TrainerUploadPortalProps> = ({
               Profile Published Successfully!
             </h2>
             <p className="text-xs sm:text-sm text-slate-600">
-              Your verified credentials for <strong className="text-slate-900">{createdTrainer.name}</strong> are now live in the certified trainer marketplace directory and available to corporate HR managers.
+              Your verified credentials for <strong className="text-slate-900">{createdTrainer.name}</strong> are now live in the Maslow SA Sdn Bhd certified trainer directory and available to corporate HR managers.
             </p>
           </div>
 

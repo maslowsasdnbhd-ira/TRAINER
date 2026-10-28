@@ -23,7 +23,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
         {/* Top Badges */}
         <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-400/30 text-blue-200 text-xs sm:text-sm font-medium backdrop-blur-sm">
           <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
-          <span>Powered by Google AI Studio Gemini 3.8 Flash</span>
+          <span>Maslow SA Sdn Bhd • Powered by Google AI Studio</span>
           <span className="text-blue-400">•</span>
           <span className="text-emerald-300 font-semibold flex items-center">
             <CheckCircle2 className="w-3.5 h-3.5 mr-1" /> Verified TTT Directory
@@ -40,9 +40,9 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
 
         {/* Description */}
         <p className="max-w-3xl mx-auto text-base sm:text-lg text-slate-300 leading-relaxed font-normal">
-          Instant corporate training matching backed by automated multimodal credential verification.
-          Trainers upload CVs and certificates for instant AI parsing — HR managers find vetted,
-          HRD Corp claimable experts using intuitive natural language prompts.
+          Maslow SA Sdn Bhd bridges corporate organizations, GLCs, and SMEs with top certified
+          Train-the-Trainer (TTT) professionals. Backed by Google AI Studio multimodal verification
+          and HRD Corp claimable syllabus alignment.
         </p>
 
         {/* CTA Buttons */}

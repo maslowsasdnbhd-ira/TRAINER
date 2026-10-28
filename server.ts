@@ -301,20 +301,19 @@ Identify:
 
       const response = await ai.models.generateContent({
         model: 'gemini-3.8-flash',
-        contents: `Evaluate the following corporate training inquiry and match it against our pool of certified Train-the-Trainer (TTT) instructors.
-        
-USER INQUIRY:
-"${query}"
+        contents: `[Client / User Request]
+${query}
 
-TRAINER POOL:
+[Certified Trainers Directory]
 ${JSON.stringify(catalogSummary, null, 2)}
 
-Rank all candidates who possess relevant skills or certifications for this request.
+Task:
+Analyze the client request against our certified trainers database. Recommend the best-fit trainers, outline the match rationale, and provide structured next steps for booking through Maslow SA Sdn Bhd.
 For each relevant match, calculate a matchScore (0 to 100), explain specific reasons why they are a strong fit (mentioning verified TTT credentials, domain mastery, audience fit), list the matching skill keywords, identify the most suitable course from their syllabus or suggest a course title, and recommend ideal duration.
 Also provide a 1-sentence synthesis of the client's interpreted goal, target audience, and required skills.`,
         config: {
           systemInstruction:
-            'You are an expert corporate learning & development (L&D) matchmaker. You match organizations with verified Train-the-Trainer (TTT) certified professionals. Always return structured JSON.',
+            'You are the elite AI Matchmaker and Corporate Training Consultant for Maslow SA Sdn Bhd. Your core responsibility is to analyze user/client requirements, professional development goals, and corporate training needs, then match them with the most qualified certified trainers from our directory.\n\nGuidelines:\n1. Maintain a professional, authoritative, and helpful corporate tone consistent with Maslow SA Sdn Bhd.\n2. Evaluate user skill gaps, preferred learning styles, budget constraints, and scheduling availability against trainer proficiencies.\n3. Provide clear, structured justifications for why specific trainers are recommended.\n4. Output clean data structures (such as JSON if required by the application workflow) or structured Markdown for user-facing recommendations.',
           responseMimeType: 'application/json',
           responseSchema: {
             type: Type.OBJECT,

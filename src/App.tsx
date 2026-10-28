@@ -136,11 +136,13 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div className="space-y-3 md:col-span-1">
               <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white">
-                  <Award className="w-4 h-4" />
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                  </svg>
                 </div>
                 <span className="font-extrabold text-base tracking-tight text-white">
-                  TrainMatch<span className="text-blue-400">.ai</span>
+                  Maslow SA <span className="text-blue-400">Sdn Bhd</span>
                 </span>
               </div>
               <p className="text-slate-400 text-xs leading-relaxed">
@@ -198,7 +200,7 @@ export default function App() {
 
           <div className="pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between text-slate-500 gap-2">
             <div>
-              © 2026 TrainMatch AI. Built in accordance with AI Studio Trainer &amp; Course Matching PRD.
+              © 2026 Maslow SA Sdn Bhd. All rights reserved. Certified Professional Training Marketplace.
             </div>
             <div className="flex items-center space-x-4">
               <span className="flex items-center text-emerald-400 font-semibold">
