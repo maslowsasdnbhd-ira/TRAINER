@@ -33,11 +33,11 @@ export const AIMatchmakerView: React.FC<AIMatchmakerViewProps> = ({
   const [error, setError] = useState<string | null>(null);
 
   const samplePrompts = [
-    'I need an HRD Corp certified trainer who can teach Python and AI prompts to beginner managers in a 2-day corporate workshop in Kuala Lumpur.',
-    'Looking for an executive leadership coach with 10+ years experience to run change management and psychological safety for 40 senior directors.',
-    'Need a Lean Six Sigma Master Black Belt to run DMAIC root-cause analysis and waste reduction for manufacturing engineers.',
-    'Find an ISO 14064 corporate carbon accounting & ESG sustainability auditor for our supply chain and finance teams.',
-    'Seeking an experienced B2B consultative negotiation trainer to help account executives defend margins against tough procurement.',
+    'We are an international school looking for an educator workshop on Growth Mindset Classrooms and supporting students with ADHD and executive functioning challenges.',
+    'I am an SME business owner looking for a hands-on training on AI Tools for Small Business Owners & Working Adults to automate operations and content.',
+    'Need certified First Aid & CPR/AED certification training for international school teachers and staff before the upcoming semester.',
+    'Looking for an in-house corporate team building retreat focused on Adult Mental Health Strategies, psychological safety, and self-actualization.',
+    'Need a specialized language pedagogy trainer to conduct Vivid Vocabulary & Creative Writing workshops for our primary educators.',
   ];
 
   const handleMatch = async (searchPrompt?: string) => {
@@ -87,30 +87,54 @@ export const AIMatchmakerView: React.FC<AIMatchmakerViewProps> = ({
           AI Corporate Matchmaker &amp; Training Advisory
         </h2>
         <p className="text-sm text-slate-600">
-          Our specialized Google AI Studio consultant analyzes your organization's skill gaps,
-          target participant profile, budget, and scheduling constraints against Maslow SA Sdn Bhd's
-          vetted, TTT-accredited trainer catalog.
+          Our specialized Google AI Studio consultant analyzes your organization's challenges,
+          learning goals, and audience profile (Educators, Entrepreneurs, In-House Teams) to recommend
+          the best-fit Maslow SA courses and certified trainers for self-actualization.
         </p>
       </div>
 
       {/* Natural Language Prompt Box */}
       <div className="bg-white rounded-2xl shadow-md border border-indigo-100 p-4 sm:p-6">
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
           <span className="text-xs font-bold text-slate-700 flex items-center">
             <Brain className="w-4 h-4 mr-1.5 text-indigo-600" />
-            Client Training Request
+            Client / Participant Profile
           </span>
-          <button
-            type="button"
-            onClick={() =>
-              setQuery(
-                `[Client / User Request]\n- Organization / User Type: Corporate MNC / GLC\n- Target Skills / Goals: Generative AI Prompting & Executive Leadership\n- Preferred Format: 2-Day In-Person Workshop\n- Timeline & Budget: Next Month, HRD Corp Claimable, Up to $2,000/day`
-              )
-            }
-            className="text-[11px] font-semibold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-lg transition-colors"
-          >
-            + Insert Structured Template
-          </button>
+          <div className="flex flex-wrap gap-1.5">
+            <button
+              type="button"
+              onClick={() =>
+                setQuery(
+                  `[Client / Participant Profile]\n- Target Audience Category: Educator (International School Teachers)\n- Specific Challenge / Learning Goal: Supporting students with ADHD & Growth Mindset Classrooms\n- Preferred Training Format: In-House Training (2 Days)`
+                )
+              }
+              className="text-[10px] font-semibold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-2 py-0.5 rounded-md transition-colors"
+            >
+              + Educator Profile
+            </button>
+            <button
+              type="button"
+              onClick={() =>
+                setQuery(
+                  `[Client / Participant Profile]\n- Target Audience Category: Entrepreneur (SME Business Owners & Working Adults)\n- Specific Challenge / Learning Goal: Introduction to AI Tools for Business to automate marketing & operations\n- Preferred Training Format: Public Course / 1-Day Masterclass`
+                )
+              }
+              className="text-[10px] font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 px-2 py-0.5 rounded-md transition-colors"
+            >
+              + Entrepreneur Profile
+            </button>
+            <button
+              type="button"
+              onClick={() =>
+                setQuery(
+                  `[Client / Participant Profile]\n- Target Audience Category: Corporate Team (40 Managers & Staff)\n- Specific Challenge / Learning Goal: First Aid for International Schools & Adult Mental Health Strategies\n- Preferred Training Format: Team Building & In-House Training (2 Days)`
+                )
+              }
+              className="text-[10px] font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-2 py-0.5 rounded-md transition-colors"
+            >
+              + In-House & Team Building
+            </button>
+          </div>
         </div>
 
         <form
@@ -125,7 +149,7 @@ export const AIMatchmakerView: React.FC<AIMatchmakerViewProps> = ({
               rows={4}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="e.g. '[Client / User Request]&#10;- Organization / User Type: Corporate Enterprise&#10;- Target Skills / Goals: Python automation & machine learning for non-tech managers&#10;- Preferred Format: 2-Day In-Person&#10;- Timeline & Budget: Flexible schedule, HRD Corp Claimable'"
+              placeholder="e.g. '[Client / Participant Profile]&#10;- Target Audience Category: Educator&#10;- Specific Challenge / Learning Goal: Managing disruptive behavior and ADHD accommodations in classroom&#10;- Preferred Training Format: In-House Training (2 Days)'"
               className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all resize-none text-slate-800 placeholder:text-slate-400 font-mono text-xs sm:text-sm"
             />
           </div>

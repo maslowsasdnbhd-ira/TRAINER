@@ -44,16 +44,12 @@ export const DirectoryView: React.FC<DirectoryViewProps> = ({
 
   const categories = [
     'All',
-    'AI & Data Science',
-    'Leadership',
-    'Quality & Six Sigma',
-    'ESG & Sustainability',
-    'Agile & Project Mgmt',
-    'Sales & Negotiation',
-    'Health & Safety',
-    'Financial Literacy',
-    'Innovation & Design',
-    'Cybersecurity & IT',
+    'For Educators',
+    'For Entrepreneurs',
+    'In-House Training & Team Building',
+    'AI Tools for Business',
+    'Leadership & Management',
+    'First Aid & Safety',
   ];
 
   const issuers = ['All', 'HRD Corp', 'ISO / BSI', 'IASSC', 'ATD', 'Cambridge', 'ICF', '(ISC)²'];

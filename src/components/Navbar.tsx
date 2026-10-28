@@ -22,14 +22,15 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="flex items-center justify-between h-16">
           {/* Logo & Brand */}
           <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setCurrentTab('directory')}>
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-md">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-              </svg>
+            {/* Logo / Brand Mark */}
+            <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-white font-extrabold tracking-wider shadow-md text-sm border border-slate-800">
+              MSA
             </div>
+            
+            {/* Company Name & Mission Subtitle */}
             <div>
               <div className="flex items-center space-x-2">
-                <h1 className="font-bold text-xl text-slate-900 tracking-tight">
+                <h1 className="font-bold text-lg text-slate-900 tracking-tight">
                   Maslow SA <span className="text-blue-600">Sdn Bhd</span>
                 </h1>
                 <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
@@ -38,7 +39,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </span>
               </div>
               <p className="text-xs text-slate-500 font-medium hidden md:block">
-                Certified Professional Training Marketplace
+                Helping You Reach Self-Actualisation
               </p>
             </div>
           </div>

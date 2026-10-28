@@ -301,19 +301,19 @@ Identify:
 
       const response = await ai.models.generateContent({
         model: 'gemini-3.8-flash',
-        contents: `[Client / User Request]
+        contents: `[Client / Participant Profile]
 ${query}
 
-[Certified Trainers Directory]
+[Maslow SA Course Catalog & Trainers Data]
 ${JSON.stringify(catalogSummary, null, 2)}
 
 Task:
-Analyze the client request against our certified trainers database. Recommend the best-fit trainers, outline the match rationale, and provide structured next steps for booking through Maslow SA Sdn Bhd.
-For each relevant match, calculate a matchScore (0 to 100), explain specific reasons why they are a strong fit (mentioning verified TTT credentials, domain mastery, audience fit), list the matching skill keywords, identify the most suitable course from their syllabus or suggest a course title, and recommend ideal duration.
-Also provide a 1-sentence synthesis of the client's interpreted goal, target audience, and required skills.`,
+Analyze the client's needs against the Maslow SA course catalog and trainer pool. Recommend the best-fit course(s) and trainer(s), explain how it addresses their goals, and provide clear next steps to register or book through Maslow SA Sdn Bhd.
+For each recommended match, assign a matchScore (0 to 100), write a detailed matchReasoning explaining how their course addresses the specific challenge (e.g., managing classroom behavior, integrating AI into business, first aid certification, or self-actualization team building), list matching skill keywords, identify the recommendedCourseTitle, and suggestedDuration.
+Also synthesize the client's interpretedGoal, targetAudienceIdentified, skillsRequired, and suggestedFormat.`,
         config: {
           systemInstruction:
-            'You are the elite AI Matchmaker and Corporate Training Consultant for Maslow SA Sdn Bhd. Your core responsibility is to analyze user/client requirements, professional development goals, and corporate training needs, then match them with the most qualified certified trainers from our directory.\n\nGuidelines:\n1. Maintain a professional, authoritative, and helpful corporate tone consistent with Maslow SA Sdn Bhd.\n2. Evaluate user skill gaps, preferred learning styles, budget constraints, and scheduling availability against trainer proficiencies.\n3. Provide clear, structured justifications for why specific trainers are recommended.\n4. Output clean data structures (such as JSON if required by the application workflow) or structured Markdown for user-facing recommendations.',
+            'You are the official AI Training Consultant for Maslow SA Sdn Bhd. Your primary mission is to help clients, educators, entrepreneurs, and corporate teams achieve self-actualization through targeted professional development and training courses.\n\nMaslow SA Core Offerings:\n1. For Educators: Growth Mindset Classrooms, Supporting Students with ADHD, Managing Disruptive Behaviour, Vivid Vocabulary & Writing, Managing Learning Delays.\n2. For Entrepreneurs & Small Businesses: Introduction to AI Tools for Small Business Owners & Working Adults.\n3. In-House Training & Team Building: First Aid for International Schools, Adult Mental Health Strategies, and customized corporate workshops.\n\nGuidelines:\n- Maintain an encouraging, professional, empathetic, and authoritative educational tone.\n- Match user inquiries (e.g., teaching challenges, business upskilling, corporate team building) with the most appropriate Maslow SA courses and expert trainers.\n- Structure recommendations clearly, highlighting learning outcomes and practical applications.',
           responseMimeType: 'application/json',
           responseSchema: {
             type: Type.OBJECT,
@@ -560,6 +560,30 @@ function matchTrainersHeuristic(query: string, trainers: Trainer[]) {
       if (t.expertiseAreas.some((e) => e.toLowerCase().includes('leadership') || e.toLowerCase().includes('management'))) {
         score += 15;
         reasons.push('Extensive leadership and executive coaching background');
+      }
+    }
+    if (q.includes('educator') || q.includes('teacher') || q.includes('adhd') || q.includes('growth mindset') || q.includes('classroom') || q.includes('school')) {
+      if (t.expertiseAreas.some((e) => e.toLowerCase().includes('educator') || e.toLowerCase().includes('adhd') || e.toLowerCase().includes('mindset') || e.toLowerCase().includes('classroom') || e.toLowerCase().includes('vocabulary'))) {
+        score += 35;
+        reasons.push('Specialized pedagogy in Growth Mindset, ADHD classroom support & educational psychology');
+      }
+    }
+    if (q.includes('entrepreneur') || q.includes('small business') || q.includes('working adult') || (q.includes('ai') && q.includes('business'))) {
+      if (t.expertiseAreas.some((e) => e.toLowerCase().includes('small business') || e.toLowerCase().includes('entrepreneur') || e.toLowerCase().includes('productivity'))) {
+        score += 35;
+        reasons.push('Tailored AI tools implementation for small business owners and working adults');
+      }
+    }
+    if (q.includes('first aid') || q.includes('cpr') || q.includes('aed') || q.includes('emergency')) {
+      if (t.expertiseAreas.some((e) => e.toLowerCase().includes('first aid') || e.toLowerCase().includes('cpr'))) {
+        score += 40;
+        reasons.push('Certified first aid & CPR/AED instructor accredited for international schools');
+      }
+    }
+    if (q.includes('mental health') || q.includes('burnout') || q.includes('team building') || q.includes('self-actualization')) {
+      if (t.expertiseAreas.some((e) => e.toLowerCase().includes('mental health') || e.toLowerCase().includes('team building') || e.toLowerCase().includes('actualization'))) {
+        score += 35;
+        reasons.push('Specialist in adult workplace mental health, psychological safety & team building retreats');
       }
     }
 

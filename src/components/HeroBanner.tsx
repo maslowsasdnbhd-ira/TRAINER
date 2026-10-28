@@ -32,17 +32,17 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
 
         {/* Heading */}
         <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
-          Match Your Organization with{' '}
+          Helping You Reach{' '}
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-sky-200 to-amber-300">
-            Certified TTT Trainers
+            Self-Actualisation
           </span>
         </h1>
 
         {/* Description */}
         <p className="max-w-3xl mx-auto text-base sm:text-lg text-slate-300 leading-relaxed font-normal">
-          Maslow SA Sdn Bhd bridges corporate organizations, GLCs, and SMEs with top certified
-          Train-the-Trainer (TTT) professionals. Backed by Google AI Studio multimodal verification
-          and HRD Corp claimable syllabus alignment.
+          Maslow SA Sdn Bhd empowers educators, entrepreneurs, and corporate organizations with
+          transformative training: Growth Mindset classrooms, ADHD support, AI Tools for business,
+          certified First Aid, and high-impact team building.
         </p>
 
         {/* CTA Buttons */}
