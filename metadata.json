@@ -1,0 +1,6 @@
+{
+  "name": "TrainMatch AI - Certified Trainer & Course Platform",
+  "description": "Intelligent web platform matching organizations and learners with verified Train-the-Trainer (TTT) professionals using Gemini AI certificate parsing and semantic search.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
