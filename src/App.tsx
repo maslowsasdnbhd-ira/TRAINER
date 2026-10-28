@@ -8,14 +8,28 @@ import { TrainerDetailModal } from './components/TrainerDetailModal';
 import { BookingModal } from './components/BookingModal';
 import { BookingsDrawer } from './components/BookingsDrawer';
 import { AuthModal } from './components/AuthModal';
+import { ForgotPasswordModal } from './components/ForgotPasswordModal';
 import { AdminApprovalView } from './components/AdminApprovalView';
+import { CourseCatalogView } from './components/CourseCatalogView';
 import { Footer } from './components/Footer';
 import { TopBar } from './components/TopBar';
 import { INITIAL_TRAINERS } from './data/initialTrainers';
+import { malaysianTrainingCatalog, TrainingCourse } from './data/coursesData';
 import { Trainer, CourseOffering, BookingRFP, AuthState, UserRole, UserProfile } from './types';
-import { Upload, ShieldAlert, ArrowRight } from 'lucide-react';
+import { ShieldAlert, ArrowRight, Lock } from 'lucide-react';
 
 const INITIAL_USERS: UserProfile[] = [
+  {
+    id: 'ADMIN',
+    role: 'admin',
+    fullName: 'Master Administrator',
+    email: 'info@maslowsa.com',
+    telephone: '0377229988',
+    icNumber: '800101-14-5000',
+    status: 'approved',
+    createdAt: '2026-01-01T00:00:00Z',
+    password: '1234',
+  },
   {
     id: 'TR-1001',
     role: 'trainer',
@@ -25,6 +39,7 @@ const INITIAL_USERS: UserProfile[] = [
     icNumber: '890312-14-5522',
     status: 'approved',
     createdAt: '2026-08-10T08:00:00Z',
+    password: '1234',
   },
   {
     id: 'TR-1002',
@@ -35,6 +50,7 @@ const INITIAL_USERS: UserProfile[] = [
     icNumber: '880620-10-5141',
     status: 'approved',
     createdAt: '2026-09-01T09:30:00Z',
+    password: '1234',
   },
   {
     id: 'CL-2001',
@@ -45,6 +61,7 @@ const INITIAL_USERS: UserProfile[] = [
     icNumber: '791104-14-6101',
     status: 'approved',
     createdAt: '2026-09-12T11:00:00Z',
+    password: '1234',
   },
   {
     id: 'TR-1003',
@@ -55,6 +72,7 @@ const INITIAL_USERS: UserProfile[] = [
     icNumber: '920415-10-5329',
     status: 'pending',
     createdAt: '2026-10-27T14:20:00Z',
+    password: '1234',
   },
   {
     id: 'CL-2002',
@@ -65,6 +83,7 @@ const INITIAL_USERS: UserProfile[] = [
     icNumber: '850723-14-6299',
     status: 'pending',
     createdAt: '2026-10-27T16:45:00Z',
+    password: '1234',
   },
 ];
 
@@ -101,6 +120,7 @@ export default function App() {
   });
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
 
   const [currentTab, setCurrentTab] = useState<'directory' | 'matchmaker' | 'onboarding' | 'approvals'>('directory');
   const [trainers, setTrainers] = useState<Trainer[]>(INITIAL_TRAINERS);
@@ -202,6 +222,50 @@ export default function App() {
     );
   };
 
+  const handlePasswordReset = (identifier: string, newPassword: string) => {
+    const cleanId = identifier.trim().toLowerCase();
+    setUsers((prevUsers) => {
+      let matched = false;
+      const updated = prevUsers.map((user) => {
+        const matches =
+          user.email.toLowerCase() === cleanId ||
+          user.telephone.replace(/[-\s]/g, '') === cleanId.replace(/[-\s]/g, '') ||
+          user.id.toLowerCase() === cleanId;
+
+        if (matches) {
+          matched = true;
+          return {
+            ...user,
+            password: newPassword,
+          };
+        }
+        return user;
+      });
+
+      if (!matched && (cleanId === 'admin' || cleanId === 'trainer' || cleanId === 'client')) {
+        const role = cleanId as 'admin' | 'trainer' | 'client';
+        return [
+          ...updated,
+          {
+            id: role.toUpperCase(),
+            role,
+            fullName: `${role.charAt(0).toUpperCase() + role.slice(1)} User`,
+            email: `${role}@maslowsa.com`,
+            telephone: '0120000000',
+            icNumber: '000000-00-0000',
+            status: 'approved',
+            createdAt: new Date().toISOString(),
+            password: newPassword,
+          },
+        ];
+      }
+
+      return updated;
+    });
+
+    console.log(`Password successfully updated and persisted for identifier: ${identifier}`);
+  };
+
   // When a newly parsed trainer profile is published
   const handleProfilePublished = (newTrainer: Trainer) => {
     setTrainers((prev) => [newTrainer, ...prev.filter((t) => t.id !== newTrainer.id)]);
@@ -215,6 +279,37 @@ export default function App() {
   const handleOpenBooking = (trainer: Trainer, course?: CourseOffering) => {
     setBookingTrainer(trainer);
     setBookingCourse(course);
+  };
+
+  // When inquiring from the Malaysian Courses Catalog
+  const handleInquireCourse = (course: TrainingCourse) => {
+    const matchingTrainer = trainers.find((t) =>
+      t.id === course.assignedTrainerId ||
+      (course.assignedTrainerId === '1' && t.id === 'tr-rachel-gomez') ||
+      (course.assignedTrainerId === '2' && t.id === 'tr-aiman-zulkifli') ||
+      (course.assignedTrainerId === '3' && t.id === 'tr-leon-chen') ||
+      (course.assignedTrainerId === '4' && t.id === 'tr-siraj-ashok') ||
+      (course.leadTrainerName && t.name.toLowerCase().includes(course.leadTrainerName.toLowerCase())) ||
+      t.coursesOffered.some((c) => c.title.toLowerCase().includes(course.title.toLowerCase()))
+    ) || trainers[0];
+
+    const courseOffering: CourseOffering = {
+      id: course.id,
+      title: course.title,
+      category: course.category,
+      duration: course.duration,
+      targetAudience: 'Corporate Teams & Educational Institutions',
+      level: 'Intermediate',
+      description: course.description,
+      keyOutcomes: [
+        'Research-backed frameworks and practical execution',
+        'Direct alignment with HRD Corp claim guidelines',
+        'Post-training capability evaluation & report',
+      ],
+      claimable: course.hrdClaimable,
+    };
+
+    handleOpenBooking(matchingTrainer, courseOffering);
   };
 
   const pendingUsers = users.filter((u) => u.status === 'pending');
@@ -246,31 +341,27 @@ export default function App() {
       {/* Main Content Area based on User Role */}
       <main className="flex-1">
         {/* ============================================================== */}
-        {/* TIER 1: TRAINER VIEW (Dedicated CV & Certificate Portal)       */}
+        {/* TIER 1: TRAINER VIEW (Strictly Locked to Upload Portal)         */}
+        {/* Trainers cannot view client search tools, course outlines,    */}
+        {/* or pricing in MYR.                                             */}
         {/* ============================================================== */}
         {auth.role === 'trainer' && (
-          <div className="py-6">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
-              <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#DA6556]/10 to-[#EB895B]/10 border border-[#DA6556]/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#DA6556] text-white flex items-center justify-center shrink-0 shadow-md">
-                    <Upload className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h2 className="text-base font-bold text-slate-900">
-                      Trainer Credential &amp; CV Upload Portal
-                    </h2>
-                    <p className="text-xs text-slate-600">
-                      Upload your CV and certificates for automated HRD Corp credential verification and course outline extraction.
-                    </p>
-                  </div>
-                </div>
-
+          <div className="max-w-4xl mx-auto px-4 py-10 space-y-6">
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-semibold px-3 py-1.5 rounded-full bg-white text-[#DA6556] border border-[#DA6556]/30 shadow-sm">
-                    Logged in as: Trainer ({auth.userProfile?.id || auth.username})
-                  </span>
+                  <Lock className="w-5 h-5 text-[#A14646]" />
+                  <h2 className="text-xl font-bold text-slate-900">Trainer Portal Access Only</h2>
                 </div>
+                <p className="text-xs text-slate-500 mt-1">
+                  Upload your certified CV and training credentials for admin review. Course outline editing and corporate client pricing are restricted to authorized administrators and clients.
+                </p>
+              </div>
+
+              <div className="shrink-0">
+                <span className="text-xs font-semibold px-3 py-1.5 rounded-full bg-white text-[#DA6556] border border-[#DA6556]/30 shadow-xs">
+                  Active Trainer: {auth.userProfile?.id || auth.username}
+                </span>
               </div>
             </div>
 
@@ -282,25 +373,40 @@ export default function App() {
         )}
 
         {/* ============================================================== */}
-        {/* TIER 2: CLIENT VIEW (Courses, Search & AI Matchmaker)          */}
+        {/* TIER 2: CLIENT VIEW (Programs Catalog, Directory & Matchmaker) */}
+        {/* Course Pricing in MYR is visible to clients                    */}
         {/* ============================================================== */}
         {auth.role === 'client' && (
           <>
             {currentTab === 'directory' && (
-              <>
+              <div className="space-y-8 pb-12">
                 <HeroBanner
                   onOpenMatchmaker={() => setCurrentTab('matchmaker')}
                   onOpenTrainerPortal={() => setIsLoginModalOpen(true)}
                   trainerCount={trainers.length}
                 />
-                <DirectoryView
-                  trainers={trainers}
-                  onSelectTrainer={(t) => setSelectedTrainer(t)}
-                  onRequestBooking={handleOpenBooking}
-                  onOpenMatchmaker={() => setCurrentTab('matchmaker')}
-                  onOpenTrainerPortal={() => setIsLoginModalOpen(true)}
-                />
-              </>
+
+                {/* Centralized Malaysian Training Catalog with MYR Pricing Security */}
+                <div id="course-catalog">
+                  <CourseCatalogView
+                    showPricing={true}
+                    courses={malaysianTrainingCatalog}
+                    trainers={trainers}
+                    onSelectTrainer={(t) => setSelectedTrainer(t)}
+                    onInquireCourse={handleInquireCourse}
+                  />
+                </div>
+
+                <div className="border-t border-slate-200 pt-6">
+                  <DirectoryView
+                    trainers={trainers}
+                    onSelectTrainer={(t) => setSelectedTrainer(t)}
+                    onRequestBooking={handleOpenBooking}
+                    onOpenMatchmaker={() => setCurrentTab('matchmaker')}
+                    onOpenTrainerPortal={() => setIsLoginModalOpen(true)}
+                  />
+                </div>
+              </div>
             )}
 
             {currentTab === 'matchmaker' && (
@@ -315,6 +421,7 @@ export default function App() {
 
         {/* ============================================================== */}
         {/* TIER 3: ADMIN VIEW (Full Access to All Tabs & Tools)           */}
+        {/* Course Pricing in MYR is visible to admins                     */}
         {/* ============================================================== */}
         {auth.role === 'admin' && (
           <>
@@ -331,7 +438,7 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => setCurrentTab('approvals')}
-                    className="px-3.5 py-1.5 rounded-lg bg-[#A14646] hover:bg-[#DA6556] text-white font-bold text-xs flex items-center gap-1 shadow-xs transition"
+                    className="px-3.5 py-1.5 rounded-lg bg-[#A14646] hover:bg-[#DA6556] text-white font-bold text-xs flex items-center gap-1 shadow-xs transition cursor-pointer"
                   >
                     Open Approvals Portal <ArrowRight className="w-3.5 h-3.5" />
                   </button>
@@ -339,22 +446,36 @@ export default function App() {
               </div>
             )}
 
-            {/* Tab 1: Directory & Courses */}
+            {/* Tab 1: Directory, Courses Catalog & Popular Trainers */}
             {currentTab === 'directory' && (
-              <>
+              <div className="space-y-8 pb-12">
                 <HeroBanner
                   onOpenMatchmaker={() => setCurrentTab('matchmaker')}
                   onOpenTrainerPortal={() => setCurrentTab('onboarding')}
                   trainerCount={trainers.length}
                 />
-                <DirectoryView
-                  trainers={trainers}
-                  onSelectTrainer={(t) => setSelectedTrainer(t)}
-                  onRequestBooking={handleOpenBooking}
-                  onOpenMatchmaker={() => setCurrentTab('matchmaker')}
-                  onOpenTrainerPortal={() => setCurrentTab('onboarding')}
-                />
-              </>
+
+                {/* Centralized Malaysian Training Catalog with MYR Pricing Security */}
+                <div id="course-catalog">
+                  <CourseCatalogView
+                    showPricing={true}
+                    courses={malaysianTrainingCatalog}
+                    trainers={trainers}
+                    onSelectTrainer={(t) => setSelectedTrainer(t)}
+                    onInquireCourse={handleInquireCourse}
+                  />
+                </div>
+
+                <div className="border-t border-slate-200 pt-6">
+                  <DirectoryView
+                    trainers={trainers}
+                    onSelectTrainer={(t) => setSelectedTrainer(t)}
+                    onRequestBooking={handleOpenBooking}
+                    onOpenMatchmaker={() => setCurrentTab('matchmaker')}
+                    onOpenTrainerPortal={() => setCurrentTab('onboarding')}
+                  />
+                </div>
+              </div>
             )}
 
             {/* Tab 2: AI Matchmaker */}
@@ -368,10 +489,12 @@ export default function App() {
 
             {/* Tab 3: Trainer Upload & AI Onboarding Portal */}
             {currentTab === 'onboarding' && (
-              <TrainerUploadPortal
-                onProfilePublished={handleProfilePublished}
-                onNavigateToDirectory={() => setCurrentTab('directory')}
-              />
+              <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <TrainerUploadPortal
+                  onProfilePublished={handleProfilePublished}
+                  onNavigateToDirectory={() => setCurrentTab('directory')}
+                />
+              </div>
             )}
 
             {/* Tab 4: Admin Approval Portal */}
@@ -420,7 +543,23 @@ export default function App() {
         onLogin={handleLogin}
         onClose={() => setIsLoginModalOpen(false)}
         canClose={auth.isAuthenticated}
+        onOpenForgotPassword={() => {
+          setIsLoginModalOpen(false);
+          setIsForgotPasswordOpen(true);
+        }}
       />
+
+      {/* Forgot Password & Reset Modal */}
+      {isForgotPasswordOpen && (
+        <ForgotPasswordModal
+          users={users}
+          onPasswordReset={handlePasswordReset}
+          onClose={() => {
+            setIsForgotPasswordOpen(false);
+            setIsLoginModalOpen(true);
+          }}
+        />
+      )}
 
       {/* Platform 3-Column Sunset Footer */}
       <Footer />

@@ -90,7 +90,7 @@ export const BookingsDrawer: React.FC<BookingsDrawerProps> = ({
                   <div className="pt-2 border-t border-slate-200/80 flex items-center justify-between">
                     <div>
                       <span className="text-[10px] text-slate-400 uppercase font-semibold">Budget:</span>{' '}
-                      <span className="font-extrabold text-slate-900">${rfp.estimatedBudget.toLocaleString()} USD</span>
+                      <span className="font-extrabold text-[#A14646]">RM {rfp.estimatedBudget.toLocaleString('en-MY', { minimumFractionDigits: 2 })}</span>
                     </div>
                     <span className="text-[10px] text-emerald-700 font-bold bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">
                       HRD Claimable

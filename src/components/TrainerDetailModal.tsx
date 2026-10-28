@@ -251,9 +251,9 @@ export const TrainerDetailModal: React.FC<TrainerDetailModalProps> = ({
             <div className="text-[10px] font-semibold text-slate-400 uppercase">
               Corporate Daily Rate
             </div>
-            <div className="text-lg font-black text-slate-900">
-              ${trainer.dailyRateUSD.toLocaleString()}
-              <span className="text-xs text-slate-500 font-normal ml-1">/ day (exclusive of taxes)</span>
+            <div className="text-lg font-black text-[#A14646]">
+              RM {(trainer.dailyRateUSD * 4.4).toLocaleString('en-MY', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              <span className="text-xs text-slate-500 font-normal ml-1">/ day (MYR, exclusive of SST)</span>
             </div>
           </div>
 

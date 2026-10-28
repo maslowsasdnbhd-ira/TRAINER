@@ -553,8 +553,8 @@ export const DirectoryView: React.FC<DirectoryViewProps> = ({
                     <div className="text-[10px] text-slate-400 uppercase font-semibold">
                       Daily Corporate Rate
                     </div>
-                    <div className="text-sm font-extrabold text-slate-900 flex items-center">
-                      ${trainer.dailyRateUSD.toLocaleString()}
+                    <div className="text-sm font-extrabold text-[#A14646] flex items-center">
+                      RM {(trainer.dailyRateUSD * 4.4).toLocaleString('en-MY', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                       <span className="text-[11px] text-slate-400 font-normal ml-1">/ day</span>
                     </div>
                   </div>

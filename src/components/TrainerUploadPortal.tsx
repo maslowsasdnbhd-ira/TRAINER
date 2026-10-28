@@ -707,12 +707,12 @@ export const TrainerUploadPortal: React.FC<TrainerUploadPortalProps> = ({
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-700 mb-1">Daily Training Rate (USD)</label>
+                <label className="block font-semibold text-slate-700 mb-1">Expected Daily Honorarium (MYR)</label>
                 <input
                   type="number"
                   value={formData.dailyRateUSD}
                   onChange={(e) => setFormData({ ...formData, dailyRateUSD: Number(e.target.value) })}
-                  className="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 font-bold text-blue-700"
+                  className="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#A14646] font-bold text-[#A14646]"
                 />
               </div>
 

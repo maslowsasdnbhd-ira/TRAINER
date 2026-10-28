@@ -69,36 +69,44 @@ export function Navbar({
 
         {/* Formal Navigation Links */}
         <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-slate-700">
-          <a 
-            href="#" 
-            onClick={(e) => {
-              e.preventDefault();
-              handleNavigate('directory');
-            }}
-            className={`transition ${currentTab === 'directory' ? 'text-[#A14646] font-semibold' : 'hover:text-[#A14646]'}`}
-          >
-            Courses
-          </a>
-          <a 
-            href="#" 
-            onClick={(e) => {
-              e.preventDefault();
-              handleNavigate('directory');
-            }}
-            className="hover:text-[#A14646] transition"
-          >
-            Public Training
-          </a>
-          <a 
-            href="#" 
-            onClick={(e) => {
-              e.preventDefault();
-              handleNavigate('matchmaker');
-            }}
-            className={`transition ${currentTab === 'matchmaker' ? 'text-[#A14646] font-semibold' : 'hover:text-[#A14646]'}`}
-          >
-            In-House
-          </a>
+          {role !== 'trainer' && (
+            <>
+              <a 
+                href="#course-catalog" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavigate('directory');
+                  const el = document.getElementById('course-catalog');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className={`transition ${currentTab === 'directory' ? 'text-[#A14646] font-semibold' : 'hover:text-[#A14646]'}`}
+              >
+                Courses
+              </a>
+              <a 
+                href="#course-catalog" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavigate('directory');
+                  const el = document.getElementById('course-catalog');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="hover:text-[#A14646] transition"
+              >
+                Public Training
+              </a>
+              <a 
+                href="#" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavigate('matchmaker');
+                }}
+                className={`transition ${currentTab === 'matchmaker' ? 'text-[#A14646] font-semibold' : 'hover:text-[#A14646]'}`}
+              >
+                In-House
+              </a>
+            </>
+          )}
           {role === 'admin' && (
             <>
               <a 
@@ -174,31 +182,43 @@ export function Navbar({
       {/* Responsive Mobile Menu Dropdown */}
       {mobileMenuOpen && (
         <div className="md:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-2 shadow-lg">
-          <button
-            type="button"
-            onClick={() => handleNavigate('directory')}
-            className={`w-full text-left py-2 px-3 rounded-lg text-sm font-medium ${
-              currentTab === 'directory' ? 'bg-[#A14646]/10 text-[#A14646] font-bold' : 'text-slate-700 hover:bg-slate-50'
-            }`}
-          >
-            Courses
-          </button>
-          <button
-            type="button"
-            onClick={() => handleNavigate('directory')}
-            className="w-full text-left py-2 px-3 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50"
-          >
-            Public Training
-          </button>
-          <button
-            type="button"
-            onClick={() => handleNavigate('matchmaker')}
-            className={`w-full text-left py-2 px-3 rounded-lg text-sm font-medium ${
-              currentTab === 'matchmaker' ? 'bg-[#A14646]/10 text-[#A14646] font-bold' : 'text-slate-700 hover:bg-slate-50'
-            }`}
-          >
-            In-House Training
-          </button>
+          {role !== 'trainer' && (
+            <>
+              <button
+                type="button"
+                onClick={() => {
+                  handleNavigate('directory');
+                  const el = document.getElementById('course-catalog');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className={`w-full text-left py-2 px-3 rounded-lg text-sm font-medium ${
+                  currentTab === 'directory' ? 'bg-[#A14646]/10 text-[#A14646] font-bold' : 'text-slate-700 hover:bg-slate-50'
+                }`}
+              >
+                Courses
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  handleNavigate('directory');
+                  const el = document.getElementById('course-catalog');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="w-full text-left py-2 px-3 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50"
+              >
+                Public Training
+              </button>
+              <button
+                type="button"
+                onClick={() => handleNavigate('matchmaker')}
+                className={`w-full text-left py-2 px-3 rounded-lg text-sm font-medium ${
+                  currentTab === 'matchmaker' ? 'bg-[#A14646]/10 text-[#A14646] font-bold' : 'text-slate-700 hover:bg-slate-50'
+                }`}
+              >
+                In-House Training
+              </button>
+            </>
+          )}
           {role === 'admin' && (
             <>
               <button

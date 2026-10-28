@@ -45,10 +45,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   const [loading, setLoading] = useState(false);
   const [submittedRfp, setSubmittedRfp] = useState<BookingRFP | null>(null);
 
-  // Calculate live estimate
-  const baseRate = trainer.dailyRateUSD;
+  // Calculate live estimate in MYR (Malaysian Ringgit)
+  const baseRateMYR = Math.round(trainer.dailyRateUSD * 4.4);
   const deliveryMultiplier = deliveryMode === 'Virtual' ? 0.9 : 1.0;
-  const estimatedBudget = Math.round(baseRate * durationDays * deliveryMultiplier);
+  const estimatedBudget = Math.round(baseRateMYR * durationDays * deliveryMultiplier);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -175,8 +175,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 </div>
                 <div className="flex justify-between pt-1">
                   <span className="text-slate-700 font-semibold">Estimated Budget:</span>
-                  <span className="font-extrabold text-blue-700 text-sm">
-                    ${submittedRfp.estimatedBudget.toLocaleString()} USD
+                  <span className="font-extrabold text-[#A14646] text-sm">
+                    RM {submittedRfp.estimatedBudget.toLocaleString('en-MY', { minimumFractionDigits: 2 })}
                   </span>
                 </div>
               </div>
@@ -326,21 +326,21 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 </div>
               </div>
 
-              {/* Instant Quotation Summary Box */}
-              <div className="p-4 rounded-xl bg-blue-50/70 border border-blue-200 flex items-center justify-between">
+              {/* Instant Quotation Summary Box in MYR */}
+              <div className="p-4 rounded-xl bg-red-50/60 border border-red-200/80 flex items-center justify-between">
                 <div>
-                  <div className="text-[11px] font-semibold text-blue-900">
+                  <div className="text-[11px] font-semibold text-slate-700">
                     Estimated Corporate Quotation:
                   </div>
-                  <div className="text-base font-black text-blue-700">
-                    ${estimatedBudget.toLocaleString()} USD
+                  <div className="text-base font-black text-[#A14646]">
+                    RM {estimatedBudget.toLocaleString('en-MY', { minimumFractionDigits: 2 })}
                     <span className="text-[11px] font-normal text-slate-500 ml-1.5">
-                      ({durationDays} days @ ${baseRate}/day)
+                      ({durationDays} days @ RM {baseRateMYR.toLocaleString('en-MY')}/day)
                     </span>
                   </div>
                 </div>
                 <div className="text-right text-[11px] text-emerald-700 font-semibold flex items-center">
-                  <CheckCircle2 className="w-3.5 h-3.5 mr-1" /> HRD Corp Claim Eligible
+                  <CheckCircle2 className="w-3.5 h-3.5 mr-1 text-emerald-600" /> HRD Corp Claim Eligible
                 </div>
               </div>
 

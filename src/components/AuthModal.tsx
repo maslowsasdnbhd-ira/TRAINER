@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { UserProfile } from '../types';
-import { X, Send, ShieldCheck, UserCheck } from 'lucide-react';
+import { X, Send, ShieldCheck, UserCheck, Eye, EyeOff } from 'lucide-react';
 
 interface AuthModalProps {
   existingUsers: UserProfile[];
@@ -9,6 +9,7 @@ interface AuthModalProps {
   isOpen?: boolean;
   onClose?: () => void;
   canClose?: boolean;
+  onOpenForgotPassword?: () => void;
 }
 
 export function AuthModal({
@@ -18,6 +19,7 @@ export function AuthModal({
   isOpen = true,
   onClose,
   canClose = false,
+  onOpenForgotPassword,
 }: AuthModalProps) {
   const [isSignUp, setIsSignUp] = useState(true); // Default to Sign Up first as requested
   const [roleChoice, setRoleChoice] = useState<'trainer' | 'client'>('trainer');
@@ -33,6 +35,7 @@ export function AuthModal({
   // Sign In Form States
   const [loginId, setLoginId] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
+  const [showLoginPassword, setShowLoginPassword] = useState(false);
 
   if (!isOpen) return null;
 
@@ -89,6 +92,7 @@ export function AuthModal({
       icNumber: icNumber.trim(),
       status: 'pending', // Pending admin approval
       createdAt: new Date().toISOString(),
+      password: '1234',
     };
 
     onRegisterSubmit(newUser);
@@ -113,40 +117,56 @@ export function AuthModal({
     e.preventDefault();
     setError('');
 
-    if (loginPassword !== '1234') {
+    const cleanInput = loginId.trim().toLowerCase();
+
+    // Find user by ID, email, or telephone
+    const foundUser = existingUsers.find(
+      (u) =>
+        u.id.toLowerCase() === cleanInput ||
+        u.email.toLowerCase() === cleanInput ||
+        u.telephone.replace(/[-\s]/g, '') === cleanInput.replace(/[-\s]/g, '') ||
+        u.fullName.toLowerCase() === cleanInput
+    );
+
+    // Master admin check
+    if (cleanInput === 'admin') {
+      const adminPass = foundUser?.password || '1234';
+      if (loginPassword !== adminPass) {
+        setError('Invalid password. Please try again.');
+        return;
+      }
+      onLogin('admin', 'Admin');
+      return;
+    }
+
+    // Quick demo role accounts (if not customized)
+    if (!foundUser && (cleanInput === 'trainer' || cleanInput === 'client')) {
+      if (loginPassword !== '1234') {
+        setError('Invalid password. Please try again.');
+        return;
+      }
+      onLogin(cleanInput, cleanInput.charAt(0).toUpperCase() + cleanInput.slice(1));
+      return;
+    }
+
+    if (!foundUser) {
+      setError('User ID, email, or telephone not found. Please sign up first.');
+      return;
+    }
+
+    // Check password against stored user password
+    const userPassword = foundUser.password || '1234';
+    if (loginPassword !== userPassword) {
       setError('Invalid password. Please try again.');
       return;
     }
 
-    const cleanInput = loginId.trim().toLowerCase();
-    if (cleanInput === 'admin') {
-      onLogin('admin', 'Admin');
-    } else if (cleanInput === 'trainer') {
-      onLogin('trainer', 'Trainer');
-    } else if (cleanInput === 'client') {
-      onLogin('client', 'Client');
-    } else {
-      // Check if user exists in registered users
-      const foundUser = existingUsers.find(
-        (u) =>
-          u.id.toLowerCase() === cleanInput ||
-          u.email.toLowerCase() === cleanInput ||
-          u.telephone.replace(/[-\s]/g, '') === cleanInput.replace(/[-\s]/g, '') ||
-          u.fullName.toLowerCase() === cleanInput
-      );
-
-      if (!foundUser) {
-        setError('User ID or email not found. Please sign up first.');
-        return;
-      }
-
-      if (foundUser.status !== 'approved') {
-        setError('Your account is currently pending review by admin (info@maslowsa.com). Please wait for approval.');
-        return;
-      }
-
-      onLogin(foundUser.role, foundUser.fullName, foundUser);
+    if (foundUser.status !== 'approved') {
+      setError('Your account is currently pending review by admin (info@maslowsa.com). Please wait for approval.');
+      return;
     }
+
+    onLogin(foundUser.role, foundUser.fullName, foundUser);
   };
 
   return (
@@ -356,17 +376,38 @@ export function AuthModal({
             </div>
 
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">
-                Password
-              </label>
-              <input 
-                type="password" 
-                value={loginPassword}
-                onChange={(e) => setLoginPassword(e.target.value)}
-                placeholder="••••••••"
-                className="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#A14646] bg-white"
-                required
-              />
+              <div className="flex items-center justify-between mb-1">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600">
+                  Password
+                </label>
+                {onOpenForgotPassword && (
+                  <button
+                    type="button"
+                    onClick={onOpenForgotPassword}
+                    className="text-xs font-semibold text-[#A14646] hover:underline cursor-pointer"
+                  >
+                    Forgot Password?
+                  </button>
+                )}
+              </div>
+              <div className="relative">
+                <input 
+                  type={showLoginPassword ? 'text' : 'password'} 
+                  value={loginPassword}
+                  onChange={(e) => setLoginPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="w-full px-4 py-3 pr-10 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#A14646] bg-white"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowLoginPassword(!showLoginPassword)}
+                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 cursor-pointer"
+                  aria-label={showLoginPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showLoginPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
             </div>
 
             <button 

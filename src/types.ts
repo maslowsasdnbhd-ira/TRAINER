@@ -149,6 +149,7 @@ export interface UserProfile {
   icNumber: string; // Malaysian IC or Passport number
   status: ApprovalStatus;
   createdAt: string;
+  password?: string;
 }
 
 export interface AuthState {
